@@ -11,12 +11,16 @@ const messageSchema = mongoose.Schema({
   },
   room: {
     type: mongoose.Types.ObjectId,
-    ref: 'Messages'
+    ref: 'Room'
   },
   timestamp: {
     type: Date,
     default: Date.now,
   },
+  type:{
+    type:String,
+    default:'normal'
+  }
 });
 
 export { messageSchema };

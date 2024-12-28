@@ -4,12 +4,13 @@ import { roomSchema } from "./room.Schema.js";
 const roomModel = mongoose.model("Room", roomSchema);
 
 export class roomRepository {
-  createRoom = async (name, userId) => {
+  createRoom = async (name, image) => {
     try {
       const newRoom = new roomModel({
         name: name,
-        user: [userId],
-        messages: [],
+        image: image,
+        user: [],
+        messages: []
       });
       if (newRoom) {
         return await newRoom.save();
@@ -18,6 +19,19 @@ export class roomRepository {
       throw error;
     }
   };
+
+  getAll = async()=>{
+    try {
+      const rooms = await roomModel.find();
+
+      if(!rooms){
+        throw new Error('Something went wrong while fetching');
+      }
+      return rooms;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   addUser = async (id, userId) => {
     try {
@@ -51,23 +65,14 @@ export class roomRepository {
     }
   };
 
-  getAllMessages = async (id) => {
-    try {
-      const room = await roomModel.findById(id).populate("messages");
-      if (room) {
-        return room.messages;
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
 
   deleteUser = async (id,userId) => {
     try {
-        const room = await roomModel.findById(id);
+        const room = await roomModel.findById(id).populate('user');
         if(room){
-            room.user = room.user.filter(u => u.toString() !== userId.toString());
-            return await room.save();
+            room.user = room.user.filter(u => u._id.toString() !== userId.toString());
+            await room.save();
+            return room;
         }
     } catch (error) {
         throw error;

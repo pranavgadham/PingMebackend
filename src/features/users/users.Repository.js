@@ -5,11 +5,12 @@ import { comparePassword, hashPassword } from "../../util/hashPassword.js";
 const userModel = mongoose.model('Users',userSchema);
 
 export class userRepository {
-  createUser = async (name, password, profilePhoto) => {
+  createUser = async (name,phone,password,photo) => {
     try {
       const user = new userModel({
         name: name,
-        profilePhoto: profilePhoto,
+        phoneNumber:phone,
+        profilePhoto: photo,
         password: await hashPassword(password),
       });
       if (user) {
@@ -20,9 +21,13 @@ export class userRepository {
     }
   };
 
-  verifyUser = async (name, password) => {
+  verifyUser = async (phoneNumber, password) => {
     try {
-      const user = await userModel.findOne(name);
+      const user = await userModel.findOne({phoneNumber:phoneNumber});
+
+      if(!user){
+        return null;
+      }
       if (await comparePassword(user.password, password)) {
         return user;
       }
