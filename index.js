@@ -208,7 +208,7 @@ io.on("connection", (socket) => {
         return;
       }
 
-      const persons = room.user.map((u) => u.name).join(",");
+      let persons = room.user.map((u) => u.name).join(",");
       if(persons.length === 0){
         persons = "No one";
       }

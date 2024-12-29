@@ -1,6 +1,10 @@
-# CharterApp
+# PingMe
 
 CharterApp is a real-time chat application built with Node.js, Express, Socket.IO, and MongoDB. It allows users to sign up, log in, create rooms, join rooms, and send messages.
+
+## Live Demo
+   [PingMe frontend repository](https://github.com/pranavgadham/PingMe.git)  
+
 
 ## Features
 
